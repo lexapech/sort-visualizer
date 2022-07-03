@@ -1,7 +1,5 @@
 package org.etu.practice.sort.visualizer.gui;
 
-import org.w3c.dom.events.Event;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

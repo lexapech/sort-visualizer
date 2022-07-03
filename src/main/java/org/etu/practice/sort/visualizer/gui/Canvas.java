@@ -1,18 +1,10 @@
 package org.etu.practice.sort.visualizer.gui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.SliderUI;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -35,7 +27,7 @@ public class Canvas extends JComponent {
 
                 Dimension newSize = e.getComponent().getSize();
                 image = new BufferedImage(newSize.width,newSize.height,BufferedImage.TYPE_INT_ARGB);
-                System.out.println(e.getComponent().getSize().width);
+                //System.out.println(e.getComponent().getSize().width);
                 super.componentResized(e);
                 repaint();
             }
