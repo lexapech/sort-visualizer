@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.util.*;
 import java.util.List;
+import org.etu.practice.sort.visualizer.common.*;
 
 import static org.etu.practice.sort.visualizer.gui.Labels.*;
 
@@ -56,7 +57,7 @@ public class GUIImpl implements GUI
 
     public SortEnum getSelectedSort()
     {
-       for (Map.Entry<SortEnum,String> e : sortLabels.entrySet())
+       for (Map.Entry<SortEnum, String> e : sortLabels.entrySet())
        {
            if (e.getValue().equals(selectAlgorithm.getSelectedItem()))
                return e.getKey();
@@ -137,14 +138,16 @@ public class GUIImpl implements GUI
             @Override
             public void actionPerformed(ActionEvent e) {
                 String size=JOptionPane.showInputDialog(parent,"Введите размер массива");
-                generateButtonListeners.forEach(x -> x.actionPerformed(new ActionEvent(size,0,null)));
+                if (size!=null)
+                    generateButtonListeners.forEach(x -> x.actionPerformed(new ActionEvent(size,0,null)));
             }
         });
         buttons.get(ButtonEnum.ENTER_BUTTON).addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String array=JOptionPane.showInputDialog(parent,"Введите элементы массива через пробел");
-                enterButtonListeners.forEach(x -> x.actionPerformed(new ActionEvent(array,0,null)));
+                if (array!=null)
+                    enterButtonListeners.forEach(x -> x.actionPerformed(new ActionEvent(array,0,null)));
             }
         });
     }

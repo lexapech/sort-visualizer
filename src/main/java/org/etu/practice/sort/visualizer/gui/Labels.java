@@ -2,7 +2,7 @@ package org.etu.practice.sort.visualizer.gui;
 
 import java.util.Map;
 import static java.util.Map.entry;
-
+import org.etu.practice.sort.visualizer.common.*;
 public class Labels
 {
     public static Map<ButtonEnum, String> buttonLabels= Map.ofEntries(

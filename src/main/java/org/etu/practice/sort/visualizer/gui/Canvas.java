@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class Canvas extends JComponent {
 
-    Image image;
+    private Image image;
     private int barCount;
     private int[] array;
     private final List<Integer> accessed;
