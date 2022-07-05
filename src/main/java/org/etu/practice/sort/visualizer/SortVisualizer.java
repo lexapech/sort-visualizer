@@ -31,6 +31,9 @@ public class SortVisualizer {
         } catch (IOException e) {
             application.showMessage("Файл не найден.");
             return;
+        } catch (NumberFormatException e) {
+            application.showMessage("Некорректный массив.");
+            return;
         }
         application.updateArray(sortArray);
     }
@@ -40,7 +43,7 @@ public class SortVisualizer {
         int[] array;
         try {
             array = GenerateArray.generateArray(Integer.parseInt(source));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | NegativeArraySizeException e) {
             application.showMessage("Некорректный размер массива.");
             return;
         }
@@ -56,6 +59,7 @@ public class SortVisualizer {
         try {
             for (int i = 0; i < array.length; i++) {
                 array[i] = Integer.parseInt(stringArray[i]);
+                if (array[i] <= 0) throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
             application.showMessage("Неправильно введен массив.");
@@ -91,7 +95,9 @@ public class SortVisualizer {
             int[] intArray = new int[array.size()];
             for (int i = 0; i < array.size(); i++) {
                 intArray[i] = array.get(i);
+                if (intArray[i] <= 0) throw new NumberFormatException();
             }
+            if (scanner.hasNext()) throw new NumberFormatException();
             return intArray;
         }
     }
