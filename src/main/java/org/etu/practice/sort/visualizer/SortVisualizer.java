@@ -48,6 +48,7 @@ public class SortVisualizer {
         application.updateArray(sortArray);
     }
 
+
     private void readArray(ActionEvent actionEvent) {
         String source = ((String)actionEvent.getSource()).trim();
         String[] stringArray = source.split(" ");
