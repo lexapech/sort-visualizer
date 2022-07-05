@@ -58,6 +58,7 @@ public class Canvas extends JComponent {
         barCount=array.length;
         this.array=array;
         accessed.clear();
+        arrayMax=0;
         for(int e : array)
             arrayMax = Math.max(arrayMax,e);
         Graphics g =  image.getGraphics();
