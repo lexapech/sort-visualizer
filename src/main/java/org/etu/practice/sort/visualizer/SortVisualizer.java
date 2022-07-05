@@ -36,7 +36,7 @@ public class SortVisualizer {
     }
 
     private void generateArray(ActionEvent actionEvent) {
-        String source = (String)actionEvent.getSource();
+        String source = ((String)actionEvent.getSource()).trim();
         int[] array;
         try {
             array = GenerateArray.generateArray(Integer.parseInt(source));
@@ -49,7 +49,7 @@ public class SortVisualizer {
     }
 
     private void readArray(ActionEvent actionEvent) {
-        String source = (String)actionEvent.getSource();
+        String source = ((String)actionEvent.getSource()).trim();
         String[] stringArray = source.split(" ");
         int[] array = new int[stringArray.length];
         try {
