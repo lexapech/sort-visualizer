@@ -54,8 +54,7 @@ public class GUI {
         }
     }
 
-    public void showMessage(String message)
-    {
+    public void showMessage(String message) {
         JOptionPane.showMessageDialog(mainPanel,message);
     }
 

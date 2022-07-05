@@ -12,11 +12,13 @@ import java.util.Random;
 public class Canvas extends JComponent {
     private Image image;
     private int barCount;
+    private int arrayMax;
     private int[] array;
     private final List<Integer> accessed;
     public Canvas() {
         image = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
         barCount = 100;
+        arrayMax=0;
         accessed = new ArrayList<>();
         array = new int[barCount];
         this.addComponentListener(new ComponentAdapter() {
@@ -47,11 +49,8 @@ public class Canvas extends JComponent {
         Random random = new Random();
         super.paintComponent(g);
         for(int i=0;i<barCount;i++) {
-
-
-            drawBar(array[i]*1f/barCount,i);
+            drawBar(array[i]*1f/arrayMax,i);
         }
-
         g.drawImage(image,0,0,null);
 
     }
@@ -59,6 +58,8 @@ public class Canvas extends JComponent {
         barCount=array.length;
         this.array=array;
         accessed.clear();
+        for(int e : array)
+            arrayMax = Math.max(arrayMax,e);
         Graphics g =  image.getGraphics();
         g.setColor(this.getBackground());
         g.fillRect(0, 0, image.getWidth(null), image.getHeight(null));
