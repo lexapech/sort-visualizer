@@ -54,6 +54,11 @@ public class GUI {
         }
     }
 
+    public void showMessage(String message)
+    {
+        JOptionPane.showMessageDialog(mainPanel,message);
+    }
+
     public SortType getSelectedSort() {
        for (SortType s : SortType.values()) {
            if (s.getLabel().equals(selectAlgorithm.getSelectedItem())) {
