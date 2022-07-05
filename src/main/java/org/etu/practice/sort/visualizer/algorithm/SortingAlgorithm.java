@@ -1,17 +1,22 @@
 package org.etu.practice.sort.visualizer.algorithm;
 
-import java.util.List;
+import org.etu.practice.sort.visualizer.common.SortVisualizerException;
+import org.etu.practice.sort.visualizer.common.SortingState;
 
-public interface SortingAlgorithm {
+import java.util.Map;
 
-    SortingState goToFirstStep(List<SortingState> states);
+public interface SortingAlgorithm<E extends Comparable<E>> {
 
-    SortingState goToLastStep(List<SortingState> states);
+    SortingState<E> goToFirstStep() throws SortVisualizerException;
 
-    SortingState nextStep();
+    SortingState<E> goToLastStep() throws SortVisualizerException;
 
-    SortingState previousStep();
+    SortingState<E> nextStep() throws SortVisualizerException;
 
-    List<SortingState> sort(SortingState initialState);
+    SortingState<E> previousStep() throws SortVisualizerException;
+
+    void sort(SortingState<E> initialState);
+
+    Map<E, Integer> getMapping();
 
 }
