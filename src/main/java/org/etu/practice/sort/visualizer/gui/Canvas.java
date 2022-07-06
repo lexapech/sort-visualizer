@@ -32,36 +32,48 @@ public class Canvas extends JComponent {
         });
     }
 
-    private void drawBar(float height,int index) {
+    private void drawBar(int height,int index) {
         Graphics g = image.getGraphics();
         g.setColor(Color.BLACK);
-        float barWidth= (float)image.getWidth(null) / barCount;
-        int heightInPixels=(int)(image.getHeight(null) * height);
 
+        float barWidth = (float)image.getWidth(null) / barCount;
+        int heightInPixels = (int)(image.getHeight(null) * height * 1f / arrayMax);
+        int verticalPosition = image.getHeight(null) - heightInPixels;
+        if (barWidth > 15) {
+            g.drawString(String.valueOf(height), (int) (barWidth * index), verticalPosition - 2);
+        }
+        int actualWidth = (int)(barWidth * (index + 1)) - (int)(barWidth * index);
         if (accessed.contains(index))
             g.setColor(Color.RED);
         else
             g.setColor(Color.BLUE);
-        g.fillRect((int)(barWidth * index),image.getHeight(null) - heightInPixels,(int)barWidth + 1, heightInPixels);
+        g.fillRect((int)(barWidth * index), verticalPosition,
+                actualWidth, heightInPixels);
+        g.setColor(Color.BLACK);
+        if(barWidth > 4) {
+            g.drawRect((int) (barWidth * index), verticalPosition,
+                    actualWidth, heightInPixels);
+        }
     }
     @Override
     public void paintComponent(Graphics g) {
         Random random = new Random();
         super.paintComponent(g);
-        for(int i=0;i<barCount;i++) {
-            drawBar(array[i]*1f/arrayMax,i);
+        for(int i = 0; i < barCount; i++) {
+            drawBar(array[i], i);
         }
         g.drawImage(image,0,0,null);
 
     }
     public void updateCanvas(int[] array) {
-        barCount=array.length;
-        this.array=array;
+        barCount = array.length;
+        this.array = array;
         accessed.clear();
-        arrayMax=0;
-        for(int e : array)
-            arrayMax = Math.max(arrayMax,e);
-        Graphics g =  image.getGraphics();
+        arrayMax = 0;
+        for(int e : array) {
+            arrayMax = Math.max(arrayMax, e);
+        }
+        Graphics g = image.getGraphics();
         g.setColor(this.getBackground());
         g.fillRect(0, 0, image.getWidth(null), image.getHeight(null));
         repaint();
