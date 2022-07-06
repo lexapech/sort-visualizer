@@ -37,10 +37,11 @@ public class Canvas extends JComponent {
         g.setColor(Color.BLACK);
 
         float barWidth = (float)image.getWidth(null) / barCount;
-        int heightInPixels = (int)(image.getHeight(null) * height * 1f / arrayMax);
+        int heightInPixels = (int)((image.getHeight(null) - 15) * height * 1f / arrayMax);
         int verticalPosition = image.getHeight(null) - heightInPixels;
         if (barWidth > 15) {
-            g.drawString(String.valueOf(height), (int) (barWidth * index), verticalPosition - 2);
+            String value = String.valueOf(height);
+            g.drawString(value, (int) (barWidth * (index + 0.5f) - 4 * value.length()), verticalPosition - 2);
         }
         int actualWidth = (int)(barWidth * (index + 1)) - (int)(barWidth * index);
         if (accessed.contains(index))
