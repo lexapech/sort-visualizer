@@ -26,6 +26,8 @@ public class SortVisualizer {
     private Integer[] sortArray;
     private SortingAlgorithm<Integer> algorithm;
     private Thread thread;
+    private static final int ARRAY_LENGTH_LIMIT = 500;
+
     public static void main(String[] argv) {
         SortVisualizer sortVisualizer = new SortVisualizer();
     }
@@ -46,11 +48,10 @@ public class SortVisualizer {
     private void nextStep(ActionEvent e) {
         try {
             SortingState<Integer> state = algorithm.nextStep();
-
-            application.updateArray(state.sortingArray());
             for (int ch : state.changedElementIndices()) {
                 application.markAccessed(ch);
             }
+            application.updateArray(state.sortingArray());
         }
         catch (SortVisualizerException ex) {
             application.showMessage(ex.getMessage());
@@ -60,11 +61,10 @@ public class SortVisualizer {
     private void previousStep(ActionEvent event) {
         try {
             SortingState<Integer> state = algorithm.previousStep();
-
-            application.updateArray(state.sortingArray());
             for (int ch : state.changedElementIndices()) {
                 application.markAccessed(ch);
             }
+            application.updateArray(state.sortingArray());
         }
         catch (SortVisualizerException ex) {
             application.showMessage(ex.getMessage());
@@ -74,11 +74,10 @@ public class SortVisualizer {
     private void lastStep(ActionEvent event) {
         try {
             SortingState<Integer> state = algorithm.goToLastStep();
-
-            application.updateArray(state.sortingArray());
             for (int ch : state.changedElementIndices()) {
                 application.markAccessed(ch);
             }
+            application.updateArray(state.sortingArray());
         }
         catch (SortVisualizerException ex) {
             application.showMessage(ex.getMessage());
@@ -88,11 +87,10 @@ public class SortVisualizer {
     private void firstStep(ActionEvent event) {
         try {
             SortingState<Integer> state = algorithm.goToFirstStep();
-
-            application.updateArray(state.sortingArray());
             for (int ch : state.changedElementIndices()) {
                 application.markAccessed(ch);
             }
+            application.updateArray(state.sortingArray());
         }
         catch (SortVisualizerException ex) {
             application.showMessage(ex.getMessage());
@@ -113,11 +111,10 @@ public class SortVisualizer {
                 SortingState<Integer> last = algorithm.goToLastStep();
                 state = algorithm.goToFirstStep();
                 while (true) {
-
-                    application.updateArray(state.sortingArray());
                     for (int ch : state.changedElementIndices()) {
                         application.markAccessed(ch);
                     }
+                    application.updateArray(state.sortingArray());
                     Thread.sleep(5);
                     if (state == last) break;
                     state = algorithm.nextStep();
@@ -144,6 +141,10 @@ public class SortVisualizer {
         File file = (File) actionEvent.getSource();
         try {
             sortArray = GenerateArray.generateArray(file);
+            if (sortArray.length > ARRAY_LENGTH_LIMIT) {
+                application.showMessage("Массив слишком большой\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
+                return;
+            }
         } catch (IOException e) {
             application.showMessage("Файл не найден.");
             return;
@@ -160,12 +161,16 @@ public class SortVisualizer {
         Integer[] array;
         try {
             array = GenerateArray.generateArray(Integer.parseInt(source));
+            sortArray = array;
+            if (sortArray.length > ARRAY_LENGTH_LIMIT) {
+                application.showMessage("Массив слишком большой\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
+                return;
+            }
         } catch (NumberFormatException | NegativeArraySizeException e) {
             application.showMessage("Некорректный размер массива.");
             return;
         }
         interruptAnimation();
-        sortArray = array;
         application.updateArray(sortArray);
         sort(null);
     }
@@ -179,12 +184,16 @@ public class SortVisualizer {
             for (int i = 0; i < array.length; i++) {
                 array[i] = Integer.parseInt(stringArray[i]);
                 if (array[i] <= 0) throw new NumberFormatException();
+                sortArray = array;
+                if (sortArray.length > ARRAY_LENGTH_LIMIT) {
+                    application.showMessage("Массив слишком большой\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
+                    return;
+                }
             }
         } catch (NumberFormatException e) {
             application.showMessage("Неправильно введен массив.");
             return;
         }
-        sortArray = array;
         application.updateArray(sortArray);
         sort(null);
     }
