@@ -66,12 +66,18 @@ public class GUI {
        }
        return null;
     }
+
     public void updateArray(int[] array) {
         canvas.updateCanvas(array);
     }
 
-    public void lockSelected(boolean lock) {
+    public void lockControls(boolean lock) {
         selectAlgorithm.setEnabled(!lock);
+        buttons.get(ButtonType.FIRST_STEP_BUTTON).setEnabled(!lock);
+        buttons.get(ButtonType.LAST_STEP_BUTTON).setEnabled(!lock);
+        buttons.get(ButtonType.NEXT_STEP_BUTTON).setEnabled(!lock);
+        buttons.get(ButtonType.PREVIOUS_STEP_BUTTON).setEnabled(!lock);
+        buttons.get(ButtonType.START_AUTO_BUTTON).setEnabled(!lock);
     }
 
     public void markAccessed(int index) {

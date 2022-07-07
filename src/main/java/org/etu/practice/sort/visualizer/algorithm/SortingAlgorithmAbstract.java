@@ -26,7 +26,7 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
     public final SortingState<T> goToLastStep() throws SortVisualizerException {
         if (result != null && !result.isEmpty()) {
             currentStep = result.size();
-            return result.get(currentStep);
+            return result.get(currentStep-1);
         } else {
             throw new SortVisualizerException("Сортировка не была выполнена.");
         }
@@ -52,8 +52,8 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
 
     @Override
     public final void sort(SortingState<T> initialState) {
-        prepareMapping(initialState);
-        result = startSortAlgorithm();
+       // prepareMapping(initialState);
+        result = startSortAlgorithm(initialState);
     }
 
     private void prepareMapping(SortingState<T> initialState) {
@@ -75,7 +75,7 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
         }
     }
 
-    protected abstract LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm();
+    protected abstract LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm(SortingState<T> initialState);
 
     @Override
     public Map<T, Integer> getMapping() {
