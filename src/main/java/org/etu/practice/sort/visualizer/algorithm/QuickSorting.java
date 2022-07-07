@@ -33,6 +33,7 @@ public class QuickSorting<T extends Comparable<T>> extends SortingAlgorithmAbstr
                     source[rightMarker] = tmp;*/
                 }
                 // Сдвигаем маркеры, чтобы получить новые границы
+
                 leftMarker++;
                 rightMarker--;
             }
