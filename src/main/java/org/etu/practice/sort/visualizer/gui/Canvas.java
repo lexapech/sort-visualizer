@@ -6,6 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -66,9 +67,12 @@ public class Canvas extends JComponent {
         g.drawImage(image,0,0,null);
 
     }
-    public void updateCanvas(int[] array) {
+    public void updateCanvas(Integer[] array) {
         barCount = array.length;
-        this.array = array;
+        this.array=new int[barCount];
+        for (int i=0;i < array.length;i++) {
+            this.array[i] = array[i];
+        }
         accessed.clear();
         arrayMax = 0;
         for(int e : array) {

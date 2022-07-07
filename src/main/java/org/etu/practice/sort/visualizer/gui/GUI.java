@@ -67,7 +67,7 @@ public class GUI {
        return null;
     }
 
-    public void updateArray(int[] array) {
+    public void updateArray(Integer[] array) {
         canvas.updateCanvas(array);
     }
 

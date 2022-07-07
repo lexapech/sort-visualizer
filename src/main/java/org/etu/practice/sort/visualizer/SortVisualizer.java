@@ -4,8 +4,8 @@ import com.sun.jdi.InterfaceType;
 import org.etu.practice.sort.visualizer.algorithm.BitonicSorting;
 import org.etu.practice.sort.visualizer.algorithm.SortingAlgorithm;
 import org.etu.practice.sort.visualizer.common.SortType;
-import org.etu.practice.sort.visualizer.common.SortVisualizerException;
-import org.etu.practice.sort.visualizer.common.SortingState;
+import org.etu.practice.sort.visualizer.exception.SortVisualizerException;
+import org.etu.practice.sort.visualizer.state.SortingState;
 import org.etu.practice.sort.visualizer.gui.ButtonType;
 import org.etu.practice.sort.visualizer.gui.GUI;
 import java.awt.event.ActionEvent;
@@ -15,11 +15,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 
 public class SortVisualizer {
     private final GUI application;
-    private int[] sortArray;
+    private Integer[] sortArray;
     private SortingAlgorithm<Integer> algorithm;
     private Thread thread;
     public static void main(String[] argv) {
@@ -51,11 +52,7 @@ public class SortVisualizer {
 
     private void sort() {
         algorithm = new BitonicSorting<>();
-        ArrayList<Integer> sortList = new ArrayList<>();
-        for (int k : sortArray) {
-            sortList.add(k);
-        }
-        SortingState<Integer> initState = new SortingState<>(SortType.BITONIC_SORT, sortList,new int[0]);
+        SortingState<Integer> initState = new SortingState<>(sortArray,new int[0]);
         algorithm.sort(initState);
 
     }
@@ -66,13 +63,9 @@ public class SortVisualizer {
                 SortingState<Integer> state;
                 SortingState<Integer> last = algorithm.goToLastStep();
                 state = algorithm.goToFirstStep();
-                int[] resultArray = new int[state.sortingArray().size()];
                 while (true) {
 
-                    for (int i = 0; i < state.sortingArray().size(); i++) {
-                        resultArray[i] = state.sortingArray().get(i);
-                    }
-                    application.updateArray(resultArray);
+                    application.updateArray(state.sortingArray());
                     for (int ch : state.changedElementIndices()) {
                         application.markAccessed(ch);
                     }
@@ -80,7 +73,7 @@ public class SortVisualizer {
                     if (state == last) break;
                     state = algorithm.nextStep();
                 }
-                application.updateArray(resultArray);
+                application.updateArray(state.sortingArray());
                 application.lockControls(false);
             }
             catch (InterruptedException | SortVisualizerException ignored) {
@@ -95,12 +88,7 @@ public class SortVisualizer {
         try {
             SortingState<Integer> state = algorithm.nextStep();
 
-            int[] resultArray = new int[state.sortingArray().size()];
-
-            for (int i = 0; i < state.sortingArray().size(); i++) {
-                resultArray[i] = state.sortingArray().get(i);
-            }
-            application.updateArray(resultArray);
+            application.updateArray(state.sortingArray());
             for (int ch : state.changedElementIndices()) {
                 application.markAccessed(ch);
             }
@@ -119,7 +107,7 @@ public class SortVisualizer {
 
     private void generateArray(ActionEvent actionEvent) {
         String source = ((String)actionEvent.getSource()).trim();
-        int[] array;
+        Integer[] array;
         try {
             array = GenerateArray.generateArray(Integer.parseInt(source));
         } catch (NumberFormatException | NegativeArraySizeException e) {
@@ -137,7 +125,7 @@ public class SortVisualizer {
     private void readArray(ActionEvent actionEvent) {
         String source = ((String)actionEvent.getSource()).trim();
         String[] stringArray = source.split(" ");
-        int[] array = new int[stringArray.length];
+        Integer[] array = new Integer[stringArray.length];
         try {
             for (int i = 0; i < array.length; i++) {
                 array[i] = Integer.parseInt(stringArray[i]);
@@ -152,8 +140,8 @@ public class SortVisualizer {
     }
 
     private static class GenerateArray {
-        public static int[] generateArray(int length) {
-            int[] array = new int[length];
+        public static Integer[] generateArray(int length) {
+            Integer[] array = new Integer[length];
             for (int i = 0; i < length; i++) {
                 array[i] = i+1;
             }
@@ -168,13 +156,13 @@ public class SortVisualizer {
             return array;
         }
 
-        public static int[] generateArray(File file) throws IOException {
+        public static Integer[] generateArray(File file) throws IOException {
             ArrayList<Integer> array = new ArrayList<>();
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextInt()) {
                 array.add(scanner.nextInt());
             }
-            int[] intArray = new int[array.size()];
+            Integer[] intArray = new Integer[array.size()];
             for (int i = 0; i < array.size(); i++) {
                 intArray[i] = array.get(i);
                 if (intArray[i] <= 0) throw new NumberFormatException();
