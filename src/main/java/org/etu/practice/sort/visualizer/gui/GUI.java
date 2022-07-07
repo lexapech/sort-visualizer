@@ -11,7 +11,6 @@ import org.etu.practice.sort.visualizer.common.*;
 public class GUI {
     private JPanel mainPanel;
     private final Map<ButtonType,JButton> buttons;
-
     private final Canvas canvas;
     private JComboBox<String> selectAlgorithm;
     private final List<ActionListener> generateButtonListeners;
@@ -38,8 +37,7 @@ public class GUI {
         panel.setVisible(true);
         return panel;
     }
-    public void addButtonHandler(ActionListener handler,ButtonType button)
-    {
+    public void addButtonHandler(ActionListener handler,ButtonType button) {
         if (button == ButtonType.GENERATE_BUTTON) {
             generateButtonListeners.add(handler);
         }
@@ -52,6 +50,10 @@ public class GUI {
         else {
             buttons.get(button).addActionListener(handler);
         }
+    }
+
+    public void addSelectorHandler(ActionListener handler) {
+        selectAlgorithm.addActionListener(handler);
     }
 
     public void showMessage(String message) {
