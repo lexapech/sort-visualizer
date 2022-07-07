@@ -98,6 +98,7 @@ public class SortVisualizer {
     }
 
     private void sort(ActionEvent event) {
+        if (sortArray == null) return;
         algorithm = application.getSelectedSort().getIntegerSorting();
         SortingState<Integer> initState = new SortingState<>(sortArray,new int[0]);
         algorithm.sort(initState);
@@ -115,7 +116,7 @@ public class SortVisualizer {
                         application.markAccessed(ch);
                     }
                     application.updateArray(state.sortingArray());
-                    Thread.sleep(5);
+                    Thread.sleep((int)(1000.0/ sortArray.length));
                     if (state == last) break;
                     state = algorithm.nextStep();
                 }
