@@ -108,8 +108,8 @@ public class SortVisualizer {
         thread = new Thread(() -> {
             try {
                 SortingState<Integer> state;
-                SortingState<Integer> last = algorithm.goToLastStep();
-                state = algorithm.goToFirstStep();
+                SortingState<Integer> last = algorithm.goToFirstStep();
+                state = algorithm.goToLastStep();
                 while (true) {
                     for (int ch : state.changedElementIndices()) {
                         application.markAccessed(ch);
@@ -120,10 +120,16 @@ public class SortVisualizer {
                     state = algorithm.nextStep();
                 }
                 application.updateArray(state.sortingArray());
-                application.lockControls(false);
-            }
-            catch (InterruptedException | SortVisualizerException ignored) {
 
+            }
+            catch (InterruptedException ignored) {
+                
+            }
+            catch (SortVisualizerException e) {
+                application.showMessage(e.getMessage());
+            }
+            finally {
+                application.lockControls(false);
             }
         });
         thread.start();
@@ -194,6 +200,7 @@ public class SortVisualizer {
             application.showMessage("Неправильно введен массив.");
             return;
         }
+        interruptAnimation();
         application.updateArray(sortArray);
         sort(null);
     }
