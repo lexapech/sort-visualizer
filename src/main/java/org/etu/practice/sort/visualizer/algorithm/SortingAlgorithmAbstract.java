@@ -1,13 +1,12 @@
 package org.etu.practice.sort.visualizer.algorithm;
 
-import org.etu.practice.sort.visualizer.common.SortVisualizerException;
-import org.etu.practice.sort.visualizer.common.SortingState;
+import org.etu.practice.sort.visualizer.state.SortingState;
+import org.etu.practice.sort.visualizer.exception.SortVisualizerException;
 import java.util.*;
 
 public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implements SortingAlgorithm<T> {
 
     private final Map<T, Integer> mapping = new HashMap<>();
-
     private int currentStep = 1;
 
     private LinkedHashMap<Integer, SortingState<T>> result;
@@ -53,12 +52,12 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
     @Override
     public final void sort(SortingState<T> initialState) {
         prepareMapping(initialState);
-        result = startSortAlgorithm();
+        result = startSortAlgorithm(initialState);
     }
 
     private void prepareMapping(SortingState<T> initialState) {
 
-        List<T> listForSorting = initialState.sortingArray();
+        List<T> listForSorting = Arrays.asList(initialState.sortingArray());
 
         listForSorting.sort(new Comparator<T>() {
             @Override
@@ -67,16 +66,22 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
             }
         });
 
-        int index = 0;
+        int barHeight = 0;
         for (T element : listForSorting) {
             if (!mapping.containsKey(element)) {
-                mapping.put(element, ++index);
+                mapping.put(element, ++barHeight);
             }
         }
     }
 
-    protected abstract LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm();
+    protected abstract LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm(SortingState<T> initialState);
 
+    protected void swap(T[] arr, int i, int j) {
+        T buf;
+        buf = arr[i];
+        arr[i] = arr[j];
+        arr[j] = buf;
+    }
     @Override
     public Map<T, Integer> getMapping() {
         return mapping;

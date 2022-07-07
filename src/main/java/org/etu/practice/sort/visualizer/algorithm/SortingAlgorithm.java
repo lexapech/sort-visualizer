@@ -1,8 +1,7 @@
 package org.etu.practice.sort.visualizer.algorithm;
 
-import org.etu.practice.sort.visualizer.common.SortVisualizerException;
-import org.etu.practice.sort.visualizer.common.SortingState;
-
+import org.etu.practice.sort.visualizer.exception.SortVisualizerException;
+import org.etu.practice.sort.visualizer.state.SortingState;
 import java.util.Map;
 
 public interface SortingAlgorithm<E extends Comparable<E>> {
