@@ -17,7 +17,7 @@ public class BubbleSorting<T extends Comparable<T>> extends SortingAlgorithmAbst
 
         T[] arr = initialState.sortingArray();
         int count = 1;
-        result.put(count, initialState);
+        result.put(count, new SortingState<>(initialState.sortingArray(), new int[0]));
         boolean notSorted = true;
         //T buf;
         while (notSorted) {

@@ -51,7 +51,7 @@ public class QuickSorting<T extends Comparable<T>> extends SortingAlgorithmAbstr
     protected LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm(SortingState<T> initialState) {
         //LinkedHashMap<Integer, SortingState<T>> result = new LinkedHashMap<>();
         count = 1;
-        result.put(1, initialState);
+        result.put(1, new SortingState<>(initialState.sortingArray(), new int[0]));
         T[] arr = initialState.sortingArray();
         quickSort(arr,0, arr.length - 1);
         // insert algorithm implementation

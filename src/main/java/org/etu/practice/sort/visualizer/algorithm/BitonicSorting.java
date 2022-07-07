@@ -10,7 +10,7 @@ public class BitonicSorting<T extends Comparable<T>> extends SortingAlgorithmAbs
 
     @Override
     protected LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm(SortingState<T> initialState) {
-        result.put(1, initialState);
+        result.put(1, new SortingState<>(initialState.sortingArray(), new int[0]));
         index = 1;
         bitonicSort(initialState.sortingArray(), 0, initialState.sortingArray().length, 1);
         return result;

@@ -12,7 +12,7 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
     private LinkedHashMap<Integer, SortingState<T>> result;
 
     @Override
-    public final SortingState<T> goToFirstStep() throws SortVisualizerException {
+    public final SortingState<T> goToLastStep() throws SortVisualizerException {
         if (result != null && !result.isEmpty()) {
             currentStep = 1;
             return result.get(currentStep);
@@ -22,7 +22,7 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
     }
 
     @Override
-    public final SortingState<T> goToLastStep() throws SortVisualizerException {
+    public final SortingState<T> goToFirstStep() throws SortVisualizerException {
         if (result != null && !result.isEmpty()) {
             currentStep = result.size();
             return result.get(currentStep);
