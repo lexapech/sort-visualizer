@@ -28,6 +28,9 @@ public class Canvas extends JComponent {
                 Dimension newSize = e.getComponent().getSize();
                 image = new BufferedImage(newSize.width,newSize.height,BufferedImage.TYPE_INT_ARGB);
                 super.componentResized(e);
+                for(int i = 0; i < barCount; i++) {
+                    drawBar(array[i], i);
+                }
                 repaint();
             }
         });
