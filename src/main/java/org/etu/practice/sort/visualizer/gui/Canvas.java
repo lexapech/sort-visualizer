@@ -61,9 +61,6 @@ public class Canvas extends JComponent {
     public void paintComponent(Graphics g) {
         Random random = new Random();
         super.paintComponent(g);
-        for(int i = 0; i < barCount; i++) {
-            drawBar(array[i], i);
-        }
         g.drawImage(image,0,0,null);
 
     }
@@ -73,7 +70,7 @@ public class Canvas extends JComponent {
         for (int i=0;i < array.length;i++) {
             this.array[i] = array[i];
         }
-        accessed.clear();
+
         arrayMax = 0;
         for(int e : array) {
             arrayMax = Math.max(arrayMax, e);
@@ -81,12 +78,15 @@ public class Canvas extends JComponent {
         Graphics g = image.getGraphics();
         g.setColor(this.getBackground());
         g.fillRect(0, 0, image.getWidth(null), image.getHeight(null));
+        for(int i = 0; i < barCount; i++) {
+            drawBar(array[i], i);
+        }
+        accessed.clear();
         repaint();
     }
 
     public void markAccessed(int index) {
         accessed.add(index);
-        repaint();
     }
 
 }
