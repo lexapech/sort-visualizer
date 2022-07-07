@@ -1,5 +1,6 @@
 package org.etu.practice.sort.visualizer;
 
+import org.etu.practice.sort.visualizer.algorithm.SortingAlgorithm;
 import com.sun.jdi.InterfaceType;
 import org.etu.practice.sort.visualizer.algorithm.BitonicSorting;
 import org.etu.practice.sort.visualizer.algorithm.SortingAlgorithm;
@@ -8,6 +9,8 @@ import org.etu.practice.sort.visualizer.exception.SortVisualizerException;
 import org.etu.practice.sort.visualizer.state.SortingState;
 import org.etu.practice.sort.visualizer.gui.ButtonType;
 import org.etu.practice.sort.visualizer.gui.GUI;
+import org.etu.practice.sort.visualizer.state.SortingState;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -34,24 +37,70 @@ public class SortVisualizer {
         application.addButtonHandler(this::getArrayFromFile, ButtonType.OPEN_FILE_BUTTON);
         application.addButtonHandler(this::visualize, ButtonType.START_AUTO_BUTTON);
         application.addButtonHandler(this::nextStep, ButtonType.NEXT_STEP_BUTTON);
+        application.addButtonHandler(this::firstStep, ButtonType.FIRST_STEP_BUTTON);
+        application.addButtonHandler(this::lastStep, ButtonType.LAST_STEP_BUTTON);
+        application.addButtonHandler(this::previousStep, ButtonType.PREVIOUS_STEP_BUTTON);
+        application.addSelectorHandler(this::sort);
     }
 
-    private void getArrayFromFile(ActionEvent actionEvent) {
-        File file = (File) actionEvent.getSource();
+    private void nextStep(ActionEvent e) {
         try {
-            sortArray = GenerateArray.generateArray(file);
-        } catch (IOException e) {
-            application.showMessage("Файл не найден.");
-            return;
-        } catch (NumberFormatException e) {
-            application.showMessage("Некорректный массив.");
-            return;
+            SortingState<Integer> state = algorithm.nextStep();
+
+            application.updateArray(state.sortingArray());
+            for (int ch : state.changedElementIndices()) {
+                application.markAccessed(ch);
+            }
         }
-        application.updateArray(sortArray);
+        catch (SortVisualizerException ex) {
+            application.showMessage(ex.getMessage());
+        }
     }
 
-    private void sort() {
-        algorithm = new BitonicSorting<>();
+    private void previousStep(ActionEvent event) {
+        try {
+            SortingState<Integer> state = algorithm.previousStep();
+
+            application.updateArray(state.sortingArray());
+            for (int ch : state.changedElementIndices()) {
+                application.markAccessed(ch);
+            }
+        }
+        catch (SortVisualizerException ex) {
+            application.showMessage(ex.getMessage());
+        }
+    }
+
+    private void lastStep(ActionEvent event) {
+        try {
+            SortingState<Integer> state = algorithm.goToLastStep();
+
+            application.updateArray(state.sortingArray());
+            for (int ch : state.changedElementIndices()) {
+                application.markAccessed(ch);
+            }
+        }
+        catch (SortVisualizerException ex) {
+            application.showMessage(ex.getMessage());
+        }
+    }
+
+    private void firstStep(ActionEvent event) {
+        try {
+            SortingState<Integer> state = algorithm.goToFirstStep();
+
+            application.updateArray(state.sortingArray());
+            for (int ch : state.changedElementIndices()) {
+                application.markAccessed(ch);
+            }
+        }
+        catch (SortVisualizerException ex) {
+            application.showMessage(ex.getMessage());
+        }
+    }
+
+    private void sort(ActionEvent event) {
+        algorithm = application.getSelectedSort().getIntegerSorting();
         SortingState<Integer> initState = new SortingState<>(sortArray,new int[0]);
         algorithm.sort(initState);
 
@@ -84,25 +133,26 @@ public class SortVisualizer {
 
     }
 
-    private void nextStep(ActionEvent e) {
-        try {
-            SortingState<Integer> state = algorithm.nextStep();
-
-            application.updateArray(state.sortingArray());
-            for (int ch : state.changedElementIndices()) {
-                application.markAccessed(ch);
-            }
-        }
-        catch (SortVisualizerException ex) {
-            application.showMessage(ex.getMessage());
-        }
-    }
-
     private void interruptAnimation() {
         if (thread != null && thread.isAlive()) {
             thread.interrupt();
             application.lockControls(false);
         }
+    }
+
+    private void getArrayFromFile(ActionEvent actionEvent) {
+        File file = (File) actionEvent.getSource();
+        try {
+            sortArray = GenerateArray.generateArray(file);
+        } catch (IOException e) {
+            application.showMessage("Файл не найден.");
+            return;
+        } catch (NumberFormatException e) {
+            application.showMessage("Некорректный массив.");
+            return;
+        }
+        application.updateArray(sortArray);
+        sort(null);
     }
 
     private void generateArray(ActionEvent actionEvent) {
@@ -117,8 +167,7 @@ public class SortVisualizer {
         interruptAnimation();
         sortArray = array;
         application.updateArray(sortArray);
-
-        sort();
+        sort(null);
     }
 
 
@@ -137,6 +186,7 @@ public class SortVisualizer {
         }
         sortArray = array;
         application.updateArray(sortArray);
+        sort(null);
     }
 
     private static class GenerateArray {
