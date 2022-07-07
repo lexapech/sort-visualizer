@@ -36,7 +36,7 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
         if (result != null && !result.isEmpty() && currentStep < result.size()) {
             return result.get(++currentStep);
         } else {
-            throw new SortVisualizerException("Не возможно перейти на следующий шаг или сортировка не была выполнена.");
+            throw new SortVisualizerException("Невозможно перейти на следующий шаг или сортировка не была выполнена.");
         }
     }
 
@@ -45,13 +45,13 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
         if (result != null && !result.isEmpty() && currentStep > 1) {
             return result.get(--currentStep);
         } else {
-            throw new SortVisualizerException("Не возможно перейти на предыдущий шаг или сортировка не была выполнена.");
+            throw new SortVisualizerException("Невозможно перейти на предыдущий шаг или сортировка не была выполнена.");
         }
     }
 
     @Override
     public final void sort(SortingState<T> initialState) {
-        prepareMapping(initialState);
+       // prepareMapping(initialState);
         result = startSortAlgorithm(initialState);
     }
 

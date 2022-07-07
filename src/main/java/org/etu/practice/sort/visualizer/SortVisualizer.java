@@ -1,18 +1,27 @@
 package org.etu.practice.sort.visualizer;
 
+import com.sun.jdi.InterfaceType;
+import org.etu.practice.sort.visualizer.algorithm.BitonicSorting;
+import org.etu.practice.sort.visualizer.algorithm.SortingAlgorithm;
+import org.etu.practice.sort.visualizer.common.SortType;
+import org.etu.practice.sort.visualizer.common.SortVisualizerException;
+import org.etu.practice.sort.visualizer.common.SortingState;
 import org.etu.practice.sort.visualizer.gui.ButtonType;
 import org.etu.practice.sort.visualizer.gui.GUI;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
 public class SortVisualizer {
     private final GUI application;
     private int[] sortArray;
-
+    private SortingAlgorithm<Integer> algorithm;
+    private Thread thread;
     public static void main(String[] argv) {
         SortVisualizer sortVisualizer = new SortVisualizer();
     }
@@ -22,6 +31,8 @@ public class SortVisualizer {
         application.addButtonHandler(this::generateArray, ButtonType.GENERATE_BUTTON);
         application.addButtonHandler(this::readArray, ButtonType.ENTER_BUTTON);
         application.addButtonHandler(this::getArrayFromFile, ButtonType.OPEN_FILE_BUTTON);
+        application.addButtonHandler(this::visualize, ButtonType.START_AUTO_BUTTON);
+        application.addButtonHandler(this::nextStep, ButtonType.NEXT_STEP_BUTTON);
     }
 
     private void getArrayFromFile(ActionEvent actionEvent) {
@@ -38,6 +49,74 @@ public class SortVisualizer {
         application.updateArray(sortArray);
     }
 
+    private void sort() {
+        algorithm = new BitonicSorting<>();
+        ArrayList<Integer> sortList = new ArrayList<>();
+        for (int k : sortArray) {
+            sortList.add(k);
+        }
+        SortingState<Integer> initState = new SortingState<>(SortType.BITONIC_SORT, sortList,new int[0]);
+        algorithm.sort(initState);
+
+    }
+    private void visualize(ActionEvent event) {
+        application.lockControls(true);
+        thread = new Thread(() -> {
+            try {
+                SortingState<Integer> state;
+                SortingState<Integer> last = algorithm.goToLastStep();
+                state = algorithm.goToFirstStep();
+                int[] resultArray = new int[state.sortingArray().size()];
+                while (true) {
+
+                    for (int i = 0; i < state.sortingArray().size(); i++) {
+                        resultArray[i] = state.sortingArray().get(i);
+                    }
+                    application.updateArray(resultArray);
+                    for (int ch : state.changedElementIndices()) {
+                        application.markAccessed(ch);
+                    }
+                    Thread.sleep(5);
+                    if (state == last) break;
+                    state = algorithm.nextStep();
+                }
+                application.updateArray(resultArray);
+                application.lockControls(false);
+            }
+            catch (InterruptedException | SortVisualizerException ignored) {
+
+            }
+        });
+        thread.start();
+
+    }
+
+    private void nextStep(ActionEvent e) {
+        try {
+            SortingState<Integer> state = algorithm.nextStep();
+
+            int[] resultArray = new int[state.sortingArray().size()];
+
+            for (int i = 0; i < state.sortingArray().size(); i++) {
+                resultArray[i] = state.sortingArray().get(i);
+            }
+            application.updateArray(resultArray);
+            for (int ch : state.changedElementIndices()) {
+                application.markAccessed(ch);
+            }
+        }
+        catch (SortVisualizerException ex) {
+            application.showMessage(ex.getMessage());
+        }
+    }
+
+    private void interruptAnimation() {
+        if (thread != null && thread.isAlive()) {
+            thread.interrupt();
+            application.lockControls(false);
+        }
+    }
+
     private void generateArray(ActionEvent actionEvent) {
         String source = ((String)actionEvent.getSource()).trim();
         int[] array;
@@ -47,8 +126,11 @@ public class SortVisualizer {
             application.showMessage("Некорректный размер массива.");
             return;
         }
+        interruptAnimation();
         sortArray = array;
         application.updateArray(sortArray);
+
+        sort();
     }
 
 
