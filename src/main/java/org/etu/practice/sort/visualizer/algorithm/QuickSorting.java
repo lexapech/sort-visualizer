@@ -4,8 +4,8 @@ import org.etu.practice.sort.visualizer.state.SortingState;
 import java.util.LinkedHashMap;
 
 public class QuickSorting<T extends Comparable<T>> extends SortingAlgorithmAbstract<T> {
-    private LinkedHashMap<Integer, SortingState<T>> result = new LinkedHashMap<>();
-    private  int count = 1;
+    private final LinkedHashMap<Integer, SortingState<T>> result = new LinkedHashMap<>();
+    private int count = 1;
     private void quickSort(T[] source, int leftBorder, int rightBorder) {
         int leftMarker = leftBorder;
         int rightMarker = rightBorder;
@@ -26,7 +26,7 @@ public class QuickSorting<T extends Comparable<T>> extends SortingAlgorithmAbstr
                     swap(source, leftMarker, rightMarker);
 
                     int[] indexesOfChangingElements = {leftMarker, rightMarker};
-                    SortingState stateAfterChange = new SortingState<>(source,indexesOfChangingElements);
+                    SortingState<T> stateAfterChange = new SortingState<>(source,indexesOfChangingElements);
                     result.put(++count,stateAfterChange);
                     /*T tmp = source[leftMarker];
                     source[leftMarker] = source[rightMarker];
@@ -49,7 +49,7 @@ public class QuickSorting<T extends Comparable<T>> extends SortingAlgorithmAbstr
     @Override
     protected LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm(SortingState<T> initialState) {
         //LinkedHashMap<Integer, SortingState<T>> result = new LinkedHashMap<>();
-
+        count = 1;
         result.put(1, initialState);
         T[] arr = initialState.sortingArray();
         quickSort(arr,0, arr.length - 1);
