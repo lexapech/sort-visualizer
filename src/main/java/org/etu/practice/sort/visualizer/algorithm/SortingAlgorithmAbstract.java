@@ -57,7 +57,8 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
 
     private void prepareMapping(SortingState<T> initialState) {
 
-        List<T> listForSorting = Arrays.asList(initialState.sortingArray());
+        T[] arrayForMapping = Arrays.copyOf(initialState.sortingArray(), initialState.sortingArray().length);
+        List<T> listForSorting = Arrays.asList(arrayForMapping);
 
         listForSorting.sort(new Comparator<T>() {
             @Override
