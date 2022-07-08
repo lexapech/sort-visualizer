@@ -3,6 +3,7 @@ package org.etu.practice.sort.visualizer.algorithm;
 import org.etu.practice.sort.visualizer.state.SortingState;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -15,7 +16,13 @@ public class BitonicSorting<T extends Comparable<T>> extends SortingAlgorithmAbs
     @SuppressWarnings("unchecked")
     protected LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm(SortingState<T> initialState) {
         T[] powerOfTwoArray;
-        duplicateElement = initialState.sortingArray()[initialState.sortingArray().length-1];
+        try {
+            duplicateElement = (T)initialState.sortingArray()[0].getClass().getConstructor(int.class).newInstance(0);
+        }
+        catch(NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e)
+        {
+            System.out.println(e.getMessage());
+        }
         powerOfTwoArray = (T[])Array.newInstance(initialState.sortingArray()[0].getClass(),powerTwo(initialState.sortingArray().length));
         for(int i = 0; i < powerOfTwoArray.length; i++) {
             if (i < initialState.sortingArray().length) {
@@ -43,7 +50,7 @@ public class BitonicSorting<T extends Comparable<T>> extends SortingAlgorithmAbs
             ArrayList<T> tempArrayList = new ArrayList<>();
 
             for(T e : a) {
-                if(e == duplicateElement && tempArrayList.contains(e)) continue;
+                if(e == duplicateElement) continue;
                 tempArrayList.add(e);
             }
             T[] tempArray = (T[])Array.newInstance(a[0].getClass(),tempArrayList.size());
