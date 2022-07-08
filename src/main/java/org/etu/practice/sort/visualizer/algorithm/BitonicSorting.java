@@ -11,17 +11,18 @@ import java.util.LinkedHashMap;
 public class BitonicSorting<T extends Comparable<T>> extends SortingAlgorithmAbstract<T> {
     private final LinkedHashMap<Integer, SortingState<T>> result = new LinkedHashMap<>();
     private int index;
+    private int duplicateCount;
     private T duplicateElement;
     @Override
     @SuppressWarnings("unchecked")
     protected LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm(SortingState<T> initialState) {
         T[] powerOfTwoArray;
-        try {
-            duplicateElement = (T)initialState.sortingArray()[0].getClass().getConstructor(int.class).newInstance(0);
-        }
-        catch(NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e)
-        {
-            System.out.println(e.getMessage());
+        duplicateCount=0;
+        duplicateElement = initialState.sortingArray()[initialState.sortingArray().length-1];
+        for (int i =0; i < initialState.sortingArray().length;i++) {
+            if (duplicateElement == initialState.sortingArray()[i]) {
+                duplicateCount++;
+            }
         }
         powerOfTwoArray = (T[])Array.newInstance(initialState.sortingArray()[0].getClass(),powerTwo(initialState.sortingArray().length));
         for(int i = 0; i < powerOfTwoArray.length; i++) {
@@ -48,10 +49,16 @@ public class BitonicSorting<T extends Comparable<T>> extends SortingAlgorithmAbs
             a[j] = temp;
 
             ArrayList<T> tempArrayList = new ArrayList<>();
-
+            int added=0;
             for(T e : a) {
-                if(e == duplicateElement) continue;
+                if(e == duplicateElement) {
+                    if (added >= duplicateCount) continue;
+                    added++;
+                }
+                if (e == a[i]) i = tempArrayList.size();
+                if (e == a[j]) j = tempArrayList.size();
                 tempArrayList.add(e);
+
             }
             T[] tempArray = (T[])Array.newInstance(a[0].getClass(),tempArrayList.size());
             tempArray = tempArrayList.toArray(tempArray);
