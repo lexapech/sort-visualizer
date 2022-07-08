@@ -209,7 +209,7 @@ public class SortVisualizer {
         sort(null);
     }
 
-    private static class GenerateArray {
+    public static class GenerateArray {
         public static Integer[] generateArray(int length) {
             Integer[] array = new Integer[length];
             for (int i = 0; i < length; i++) {
