@@ -103,8 +103,8 @@ public class SortVisualizer {
         thread = new Thread(() -> {
             try {
                 SortingState<Integer> state;
-                SortingState<Integer> last = algorithm.goToFirstStep();
-                state = algorithm.goToLastStep();
+                SortingState<Integer> last = algorithm.goToLastStep();
+                state = algorithm.goToFirstStep();
                 while (true) {
                     for (int ch : state.changedElementIndices()) {
                         application.markAccessed(ch);
