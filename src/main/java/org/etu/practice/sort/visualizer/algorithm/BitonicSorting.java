@@ -16,6 +16,8 @@ public class BitonicSorting<T extends Comparable<T>> extends SortingAlgorithmAbs
     @Override
     @SuppressWarnings("unchecked")
     protected LinkedHashMap<Integer, SortingState<T>> startSortAlgorithm(SortingState<T> initialState) {
+        result.put(1, new SortingState<>(initialState.sortingArray(), new int[0]));
+        if (initialState.sortingArray().length < 2) return result;
         T[] powerOfTwoArray;
         duplicateCount=0;
         duplicateElement = initialState.sortingArray()[initialState.sortingArray().length-1];
@@ -33,7 +35,7 @@ public class BitonicSorting<T extends Comparable<T>> extends SortingAlgorithmAbs
                 powerOfTwoArray[i] = duplicateElement;
             }
         }
-        result.put(1, new SortingState<>(initialState.sortingArray(), new int[0]));
+
         index = 1;
         bitonicSort(powerOfTwoArray, 0, powerOfTwoArray.length, 1);
         return result;
