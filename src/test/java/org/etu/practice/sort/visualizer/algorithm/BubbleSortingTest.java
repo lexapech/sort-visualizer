@@ -26,4 +26,15 @@ public class BubbleSortingTest {
         Integer[] resultArray = integerBubbleSorting.goToLastStep().sortingArray();
         Assertions.assertArrayEquals(answerArray,resultArray);
     }
+
+    @Test
+    void emptyArray() throws SortVisualizerException {
+        Integer[] sortArray = {};
+        Integer[] answerArray = {};
+        SortingState<Integer> initState
+                = new SortingState<>(sortArray, new int[0]);
+        integerBubbleSorting.sort(initState);
+        Integer[] resultArray = integerBubbleSorting.goToLastStep().sortingArray();
+        Assertions.assertArrayEquals(answerArray,resultArray);
+    }
 }

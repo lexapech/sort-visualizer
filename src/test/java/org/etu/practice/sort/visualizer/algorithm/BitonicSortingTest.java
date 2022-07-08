@@ -27,4 +27,15 @@ public class BitonicSortingTest {
         Assertions.assertArrayEquals(answerArray, resultArray);
     }
 
+    @Test
+    void emptyArray() throws SortVisualizerException {
+        Integer[] sortArray = {};
+        Integer[] answerArray = {};
+        SortingState<Integer> initState
+                = new SortingState<>(sortArray, new int[0]);
+        integerBitonicSorting.sort(initState);
+        Integer[] resultArray = integerBitonicSorting.goToLastStep().sortingArray();
+        Assertions.assertArrayEquals(answerArray, resultArray);
+    }
+
 }

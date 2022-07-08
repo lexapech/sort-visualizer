@@ -26,4 +26,15 @@ public class QuickSortingTest {
         Integer[] resultArray = integerQuickSorting.goToLastStep().sortingArray();
         Assertions.assertArrayEquals(answerArray,resultArray);
     }
+
+    @Test
+    void emptyArray() throws SortVisualizerException {
+        Integer[] sortArray = {};
+        Integer[] answerArray = {};
+        SortingState<Integer> initState
+                = new SortingState<>(sortArray, new int[0]);
+        integerQuickSorting.sort(initState);
+        Integer[] resultArray = integerQuickSorting.goToLastStep().sortingArray();
+        Assertions.assertArrayEquals(answerArray,resultArray);
+    }
 }
