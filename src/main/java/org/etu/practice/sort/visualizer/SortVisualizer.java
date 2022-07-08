@@ -38,13 +38,15 @@ public class SortVisualizer {
         application.addSelectorHandler(this::sort);
     }
 
-    private void nextStep(ActionEvent e) {
+    private void nextStep(ActionEvent event) {
         try {
             SortingState<Integer> state = algorithm.nextStep();
             for (int ch : state.changedElementIndices()) {
                 application.markAccessed(ch);
             }
             application.updateArray(state.sortingArray());
+        } catch (NullPointerException e) {
+            application.showMessage("Массив не введен");
         }
         catch (SortVisualizerException ex) {
             application.showMessage(ex.getMessage());
@@ -58,6 +60,8 @@ public class SortVisualizer {
                 application.markAccessed(ch);
             }
             application.updateArray(state.sortingArray());
+        } catch (NullPointerException e) {
+            application.showMessage("Массив не введен");
         }
         catch (SortVisualizerException ex) {
             application.showMessage(ex.getMessage());
@@ -71,6 +75,8 @@ public class SortVisualizer {
                 application.markAccessed(ch);
             }
             application.updateArray(state.sortingArray());
+        } catch (NullPointerException e) {
+            application.showMessage("Массив не введен");
         }
         catch (SortVisualizerException ex) {
             application.showMessage(ex.getMessage());
@@ -84,6 +90,8 @@ public class SortVisualizer {
                 application.markAccessed(ch);
             }
             application.updateArray(state.sortingArray());
+        } catch (NullPointerException e) {
+            application.showMessage("Массив не введен");
         }
         catch (SortVisualizerException ex) {
             application.showMessage(ex.getMessage());
@@ -116,6 +124,8 @@ public class SortVisualizer {
                 }
                 application.updateArray(state.sortingArray());
 
+            } catch (NullPointerException e) {
+                application.showMessage("Массив не введен");
             }
             catch (InterruptedException ignored) {
                 
