@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.Arrays;
 
+
 public class BitonicSortingTest {
 
     private BitonicSorting<Integer> integerBitonicSorting;
