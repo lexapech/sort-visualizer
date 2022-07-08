@@ -51,7 +51,7 @@ public abstract class SortingAlgorithmAbstract<T extends Comparable<T>> implemen
 
     @Override
     public final void sort(SortingState<T> initialState) {
-       // prepareMapping(initialState);
+        prepareMapping(initialState);
         result = startSortAlgorithm(initialState);
     }
 
