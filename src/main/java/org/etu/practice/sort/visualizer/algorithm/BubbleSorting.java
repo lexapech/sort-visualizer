@@ -33,7 +33,7 @@ public class BubbleSorting<T extends Comparable<T>> extends SortingAlgorithmAbst
                     swap(arr, i, i+1);
                     // запись состояния
                     int[] indexesOfChangingElements = {i, i+1};
-                    SortingState stateAfterChange = new SortingState<>(arr,indexesOfChangingElements);
+                    SortingState<T> stateAfterChange = new SortingState<>(arr,indexesOfChangingElements);
 
                     result.put(++count,stateAfterChange);
                 }

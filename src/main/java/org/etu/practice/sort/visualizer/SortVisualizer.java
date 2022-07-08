@@ -1,24 +1,17 @@
 package org.etu.practice.sort.visualizer;
 
 import org.etu.practice.sort.visualizer.algorithm.SortingAlgorithm;
-import com.sun.jdi.InterfaceType;
-import org.etu.practice.sort.visualizer.algorithm.BitonicSorting;
-import org.etu.practice.sort.visualizer.algorithm.SortingAlgorithm;
-import org.etu.practice.sort.visualizer.common.SortType;
 import org.etu.practice.sort.visualizer.exception.SortVisualizerException;
 import org.etu.practice.sort.visualizer.state.SortingState;
 import org.etu.practice.sort.visualizer.gui.ButtonType;
 import org.etu.practice.sort.visualizer.gui.GUI;
-import org.etu.practice.sort.visualizer.state.SortingState;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.IntStream;
+import java.util.concurrent.TimeUnit;
 
 
 public class SortVisualizer {
@@ -104,6 +97,7 @@ public class SortVisualizer {
         algorithm.sort(initState);
 
     }
+
     private void visualize(ActionEvent event) {
         application.lockControls(true);
         thread = new Thread(() -> {
@@ -116,7 +110,7 @@ public class SortVisualizer {
                         application.markAccessed(ch);
                     }
                     application.updateArray(state.sortingArray());
-                    Thread.sleep((int)(1000.0/ sortArray.length));
+                    TimeUnit.MILLISECONDS.sleep((int)(1000.0 / sortArray.length));
                     if (state == last) break;
                     state = algorithm.nextStep();
                 }
@@ -192,7 +186,7 @@ public class SortVisualizer {
                 array[i] = Integer.parseInt(stringArray[i]);
                 if (array[i] <= 0) throw new NumberFormatException();
                 sortArray = array;
-                if (sortArray.length > ARRAY_LENGTH_LIMIT || sortArray.length < 1) {
+                if (sortArray.length > ARRAY_LENGTH_LIMIT) {
                     application.showMessage("Неверный размер массива\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
                     return;
                 }
@@ -210,7 +204,7 @@ public class SortVisualizer {
         public static Integer[] generateArray(int length) {
             Integer[] array = new Integer[length];
             for (int i = 0; i < length; i++) {
-                array[i] = i+1;
+                array[i] = i + 1;
             }
             for (int i = 0,j,k; i < Math.pow(length,2); i++) {
                 j = (int)(Math.random()*length);
