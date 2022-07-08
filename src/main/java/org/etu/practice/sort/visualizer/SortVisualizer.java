@@ -148,8 +148,8 @@ public class SortVisualizer {
         File file = (File) actionEvent.getSource();
         try {
             sortArray = GenerateArray.generateArray(file);
-            if (sortArray.length > ARRAY_LENGTH_LIMIT) {
-                application.showMessage("Массив слишком большой\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
+            if (sortArray.length > ARRAY_LENGTH_LIMIT || sortArray.length < 1) {
+                application.showMessage("Неверный размер массива\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
                 return;
             }
         } catch (IOException e) {
@@ -169,8 +169,8 @@ public class SortVisualizer {
         try {
             array = GenerateArray.generateArray(Integer.parseInt(source));
             sortArray = array;
-            if (sortArray.length > ARRAY_LENGTH_LIMIT) {
-                application.showMessage("Массив слишком большой\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
+            if (sortArray.length > ARRAY_LENGTH_LIMIT || sortArray.length < 1) {
+                application.showMessage("Неверный размер массива\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
                 return;
             }
         } catch (NumberFormatException | NegativeArraySizeException e) {
@@ -192,8 +192,8 @@ public class SortVisualizer {
                 array[i] = Integer.parseInt(stringArray[i]);
                 if (array[i] <= 0) throw new NumberFormatException();
                 sortArray = array;
-                if (sortArray.length > ARRAY_LENGTH_LIMIT) {
-                    application.showMessage("Массив слишком большой\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
+                if (sortArray.length > ARRAY_LENGTH_LIMIT || sortArray.length < 1) {
+                    application.showMessage("Неверный размер массива\n" + "[1 - " + ARRAY_LENGTH_LIMIT + "]");
                     return;
                 }
             }
