@@ -25,14 +25,4 @@ public class BitonicSortingTest {
         Assertions.assertArrayEquals(answerArray,resultArray);
     }
 
-    @Test
-    public void incorrectSort() {
-        Integer[] sortArray = {5,2,3,1,6,4};
-        Integer[] answerArray = {1,2,3,5,6,4};
-        SortingState<Integer> initState
-                = new SortingState<>(sortArray, new int[0]);
-        integerBitonicSorting.sort(initState);
-        Integer[] resultArray = initState.sortingArray();
-        Assertions.assertArrayEquals(answerArray,resultArray);
-    }
 }
