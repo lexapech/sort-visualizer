@@ -24,7 +24,7 @@ public class SortingAlgorithmTest {
     public void nextStepExceptionQuickSort() throws SortVisualizerException {
         integerSortingAlgorithm = new QuickSorting<>();
         integerSortingAlgorithm.sort(integerSortingState);
-        var step = integerSortingAlgorithm.goToFirstStep();
+        var step = integerSortingAlgorithm.goToLastStep();
         Assertions.assertThrows(SortVisualizerException.class, ()-> {
             integerSortingAlgorithm.nextStep();
         });
@@ -59,7 +59,7 @@ public class SortingAlgorithmTest {
     public void nextStepExceptionBubbleSort() throws SortVisualizerException {
         integerSortingAlgorithm = new BubbleSorting<>();
         integerSortingAlgorithm.sort(integerSortingState);
-        var step = integerSortingAlgorithm.goToFirstStep();
+        var step = integerSortingAlgorithm.goToLastStep();
         Assertions.assertThrows(SortVisualizerException.class, ()-> {
             integerSortingAlgorithm.nextStep();
         });
@@ -94,7 +94,7 @@ public class SortingAlgorithmTest {
     public void nextStepExceptionBitonicSort() throws SortVisualizerException {
         integerSortingAlgorithm = new BitonicSorting<>();
         integerSortingAlgorithm.sort(integerSortingState);
-        var step = integerSortingAlgorithm.goToFirstStep();
+        var step = integerSortingAlgorithm.goToLastStep();
         Assertions.assertThrows(SortVisualizerException.class, ()-> {
             integerSortingAlgorithm.nextStep();
         });
