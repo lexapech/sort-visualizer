@@ -103,7 +103,6 @@ public class SortVisualizer {
         algorithm = application.getSelectedSort().getIntegerSorting();
         SortingState<Integer> initState = new SortingState<>(sortArray,new int[0]);
         algorithm.sort(initState);
-
     }
 
     private void visualize(ActionEvent event) {
