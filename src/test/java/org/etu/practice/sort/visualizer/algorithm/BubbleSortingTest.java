@@ -37,4 +37,13 @@ public class BubbleSortingTest {
         Integer[] resultArray = integerBubbleSorting.goToLastStep().sortingArray();
         Assertions.assertArrayEquals(answerArray,resultArray);
     }
+
+    @Test
+    void nullArray() {
+        Integer[] sortArray = null;
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            SortingState<Integer> initState
+                    = new SortingState<>(sortArray, new int[0]);
+        });
+    }
 }
